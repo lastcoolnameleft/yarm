@@ -1,0 +1,4 @@
+foo: bar
+time:
+    day: {{ .Day }}
+    night: {{ .Night }}
