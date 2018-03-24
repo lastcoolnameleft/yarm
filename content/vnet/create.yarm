@@ -1,6 +1,23 @@
 location: {{ .location }}
-tags: {{ .tags }}
+tags: 
+    {{ if .tags }}
+        {{- range $key, $val := .tags }}
+        - {{ $key }}: {{ $val }}
+        {{- end }}
+    {{- else -}}
+    {}
+    {{- end }}
 properties:
   addressSpace:
-    addressPrefixes: {{ .addressPrefixes }}
-dhcpOptions: {{ .dhcpOptions }}
+    addressPrefixes:
+        {{- range $prefix := .addressPrefixes }}
+        - {{ $prefix }}
+        {{- end }}
+dhcpOptions:
+    {{ if .dhcpOptions }}
+        {{- range $key, $val := .dhcpOptions }}
+        - {{ $key }}: {{ $val }}
+        {{- end }}
+    {{- else -}}
+    {}
+    {{- end -}}
