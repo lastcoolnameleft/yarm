@@ -1,0 +1,6 @@
+location: {{ .location }}
+tags: {{ .tags }}
+properties:
+  addressSpace:
+    addressPrefixes: {{ .addressPrefixes }}
+dhcpOptions: {{ .dhcpOptions }}
