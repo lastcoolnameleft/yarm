@@ -31,21 +31,21 @@ func main() {
 		panic(err)
 	}
 
-	println("RESOURCES=")
-	println(resources.String())
 	values["resources"] = resources.String()
-	println("----Values 2----")
-	fmt.Printf("%+v\n", values)
 
 	res, err := Transform("base", base, values)
 	if err != nil {
 		panic(err)
 	}
 
-	json2, err := ConvertToJSON(res)
+	println("----YAML----")
+	println(res.String())
+
+	json2, err := ConvertToPrettyJSON(res)
 	if err != nil {
 		panic(err)
 	}
 
+	println("----JSON----")
 	fmt.Println(json2)
 }

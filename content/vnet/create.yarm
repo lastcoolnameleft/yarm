@@ -8,6 +8,13 @@
                     {{- range $prefix := .addressPrefixes }}
                     - {{ $prefix }}
                     {{- end }}
+            subnets:
+                {{- range $subnet := .subnets }}
+                - 
+                    name: {{ $subnet.name }}
+                    properties: 
+                        addressPrefix: {{ $subnet.addressPrefix }}
+                {{- end }}
         tags: 
             {{- if .tags }}
                 {{- range $key, $val := .tags }}
