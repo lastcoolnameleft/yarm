@@ -1,23 +1,26 @@
-location: {{ .location }}
-tags: 
-    {{ if .tags }}
-        {{- range $key, $val := .tags }}
-        - {{ $key }}: {{ $val }}
-        {{- end }}
-    {{- else -}}
-    {}
-    {{- end }}
-properties:
-  addressSpace:
-    addressPrefixes:
-        {{- range $prefix := .addressPrefixes }}
-        - {{ $prefix }}
-        {{- end }}
-dhcpOptions:
-    {{ if .dhcpOptions }}
-        {{- range $key, $val := .dhcpOptions }}
-        - {{ $key }}: {{ $val }}
-        {{- end }}
-    {{- else -}}
-    {}
-    {{- end -}}
+        apiVersion: "2015-06-15"
+        type: "Microsoft.Network/virtualNetworks" 
+        name: {{ .name }}
+        location: {{ .location }}
+        properties:
+            addressSpace:
+                addressPrefixes:
+                    {{- range $prefix := .addressPrefixes }}
+                    - {{ $prefix }}
+                    {{- end }}
+        tags: 
+            {{- if .tags }}
+                {{- range $key, $val := .tags }}
+                - {{ $key }}: {{ $val }}
+                {{- end }}
+            {{- else -}}
+            {}
+            {{- end }}
+        dhcpOptions:
+            {{ if .dhcpOptions }}
+                {{- range $key, $val := .dhcpOptions }}
+                - {{ $key }}: {{ $val }}
+                {{- end }}
+            {{- else -}}
+            {}
+            {{- end -}}

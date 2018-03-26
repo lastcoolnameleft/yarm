@@ -11,7 +11,12 @@ type Values map[string]interface{}
 
 func main() {
 	filename := os.Args[1]
-	source, err := ioutil.ReadFile(filename)
+	resource, err := ioutil.ReadFile(filename)
+	if err != nil {
+		panic(err)
+	}
+
+	base, err := ioutil.ReadFile("content/base/arm-base.yaml")
 	if err != nil {
 		panic(err)
 	}
@@ -21,15 +26,26 @@ func main() {
 		panic(err)
 	}
 
-	res, err := Transform(source, values)
+	resources, err := Transform("resources", resource, values)
 	if err != nil {
 		panic(err)
 	}
 
-	json, err := ConvertToJSON(res)
+	println("RESOURCES=")
+	println(resources.String())
+	values["resources"] = resources.String()
+	println("----Values 2----")
+	fmt.Printf("%+v\n", values)
+
+	res, err := Transform("base", base, values)
 	if err != nil {
 		panic(err)
 	}
 
-	fmt.Println(json)
+	json2, err := ConvertToJSON(res)
+	if err != nil {
+		panic(err)
+	}
+
+	fmt.Println(json2)
 }

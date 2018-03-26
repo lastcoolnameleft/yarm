@@ -1,0 +1,17 @@
+schema: https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#"
+contentVersion: 1.0.0.0
+parameters: {{ if .paremters }} 
+        {{- range $parameter := .parameters }}
+        {{ $parameter }}
+        {{- end }}
+    {{- else -}}
+    {}{{- end }}
+variables: {{ if .variables }}
+    {{- range $variable := .variables }}
+    {{ $variable }}
+    {{- end }}
+    {{- else -}}
+    {}{{- end }}
+resources:
+    -
+{{ .resources }}
