@@ -18,7 +18,14 @@ func main() {
 		panic(err)
 	}
 
-	resources := transformResource(resourceFile, values)
+	fmt.Println("values:", values["resources"])
+	var resource = values["resources"].(map[string]interface{})
+	fmt.Println("resource:", resource)
+	var vnets = resource["vnets"].([]interface{})
+	fmt.Println("vnets:", vnets)
+	var vnet = vnets[0].(map[string]interface{})
+	fmt.Println("vnet:", vnet)
+	resources := transformResource(resourceFile, vnet)
 
 	values["resources"] = resources
 
@@ -53,6 +60,7 @@ func transformMaster(values Values) string {
 		panic(err)
 	}
 
+	print(res.String())
 	json2, err := ConvertToPrettyJSON(res)
 	if err != nil {
 		panic(err)

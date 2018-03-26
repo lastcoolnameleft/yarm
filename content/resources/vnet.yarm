@@ -20,7 +20,7 @@
                 {{- range $key, $val := .tags }}
                 {{ $key }}: {{ $val }}
                 {{- end }}
-            {{- else -}}
+            {{- else }}
             {}
             {{- end }}
         dhcpOptions:
