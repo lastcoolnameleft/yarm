@@ -18,7 +18,7 @@
         tags: 
             {{- if .tags }}
                 {{- range $key, $val := .tags }}
-                - {{ $key }}: {{ $val }}
+                {{ $key }}: {{ $val }}
                 {{- end }}
             {{- else -}}
             {}
