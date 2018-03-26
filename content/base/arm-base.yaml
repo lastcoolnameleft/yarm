@@ -14,4 +14,9 @@ variables: {{ if .variables }}
     {}{{- end }}
 resources:
     -
+{{ if .vnets }}
+{{ range $vnet := .vnets }}
+{{ $vnet }}
+{{ end }}
+{{ end }}
 {{ .resources }}

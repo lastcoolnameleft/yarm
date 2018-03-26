@@ -10,18 +10,26 @@ import (
 type Values map[string]interface{}
 
 func main() {
-	filename := os.Args[1]
-	resource, err := ioutil.ReadFile(filename)
+	resourceFile := os.Args[1]
+	valuesFile := os.Args[2]
+
+	values, err := ReadValuesFile(valuesFile)
 	if err != nil {
 		panic(err)
 	}
 
-	base, err := ioutil.ReadFile("content/base/arm-base.yaml")
-	if err != nil {
-		panic(err)
-	}
+	resources := transformResource(resourceFile, values)
 
-	values, err := ReadValuesFile(os.Args[2])
+	values["resources"] = resources
+
+	json2 := transformMaster(values)
+	println("----JSON----")
+	fmt.Println(json2)
+
+}
+
+func transformResource(resourceFile string, values Values) string {
+	resource, err := ioutil.ReadFile(resourceFile)
 	if err != nil {
 		panic(err)
 	}
@@ -31,9 +39,21 @@ func main() {
 		panic(err)
 	}
 
-	values["resources"] = resources.String()
+	return resources.String()
+}
+
+func transformMaster(values Values) string {
+	base, err := ioutil.ReadFile("content/base/arm-base.yaml")
+	if err != nil {
+		panic(err)
+	}
 
 	res, err := Transform("base", base, values)
+	if err != nil {
+		panic(err)
+	}
+
+	json2, err := ConvertToPrettyJSON(res)
 	if err != nil {
 		panic(err)
 	}
@@ -41,11 +61,5 @@ func main() {
 	println("----YAML----")
 	println(res.String())
 
-	json2, err := ConvertToPrettyJSON(res)
-	if err != nil {
-		panic(err)
-	}
-
-	println("----JSON----")
-	fmt.Println(json2)
+	return json2
 }

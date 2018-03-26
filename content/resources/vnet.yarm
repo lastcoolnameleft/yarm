@@ -1,0 +1,33 @@
+        apiVersion: "2015-06-15"
+        type: "Microsoft.Network/virtualNetworks" 
+        name: {{ .name }}
+        location: {{ .location }}
+        properties:
+            addressSpace:
+                addressPrefixes:
+                    {{- range $prefix := .addressPrefixes }}
+                    - {{ $prefix }}
+                    {{- end }}
+            subnets:
+                {{- range $subnet := .subnets }}
+                - 
+                    name: {{ $subnet.name }}
+                    properties: 
+                        addressPrefix: {{ $subnet.addressPrefix }}
+                {{- end }}
+        tags: 
+            {{- if .tags }}
+                {{- range $key, $val := .tags }}
+                {{ $key }}: {{ $val }}
+                {{- end }}
+            {{- else -}}
+            {}
+            {{- end }}
+        dhcpOptions:
+            {{ if .dhcpOptions }}
+                {{- range $key, $val := .dhcpOptions }}
+                - {{ $key }}: {{ $val }}
+                {{- end }}
+            {{- else -}}
+            {}
+            {{- end -}}

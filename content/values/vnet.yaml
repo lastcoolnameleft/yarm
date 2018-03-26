@@ -1,0 +1,16 @@
+resources:
+  vnets:
+    - name: myvnet
+      location: southcentralus
+      tags:
+        key1: value1
+        key2: value2
+      addressPrefixes: 
+        - 10.0.0.0/16
+        - 10.1.0.0/16
+      dhcpOptions: {}
+      subnets:
+        - name: subnet1
+          addressPrefix: 10.0.0.0/24
+        - name: subnet2
+          addressPrefix: 10.1.0.0/24
