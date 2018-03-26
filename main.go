@@ -25,5 +25,11 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
-	fmt.Println(res)
+
+	json, err := ConvertToJSON(res)
+	if err != nil {
+		panic(err)
+	}
+
+	fmt.Println(json)
 }
