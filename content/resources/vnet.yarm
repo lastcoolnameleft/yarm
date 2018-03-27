@@ -23,11 +23,9 @@
             {{- else }}
             {}
             {{- end }}
+{{ if .dhcpOptions }}
         dhcpOptions:
-            {{ if .dhcpOptions }}
                 {{- range $key, $val := .dhcpOptions }}
                 - {{ $key }}: {{ $val }}
                 {{- end }}
-            {{- else -}}
-            {}
-            {{- end -}}
+{{- end -}}

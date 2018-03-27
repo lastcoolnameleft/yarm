@@ -1,4 +1,4 @@
-schema: https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#
+$schema: https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#
 contentVersion: 1.0.0.0
 parameters: {{ if .paremters }} 
         {{- range $parameter := .parameters }}
@@ -14,9 +14,4 @@ variables: {{ if .variables }}
     {}{{- end }}
 resources:
     -
-{{ if .vnets }}
-{{ range $vnet := .vnets }}
-{{ $vnet }}
-{{ end }}
-{{ end }}
 {{ .resources }}

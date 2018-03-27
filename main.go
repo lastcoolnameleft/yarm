@@ -18,16 +18,19 @@ func main() {
 		panic(err)
 	}
 
-	fmt.Println("values:", values["resources"])
-	var resource = values["resources"].(map[string]interface{})
-	fmt.Println("resource:", resource)
-	var vnets = resource["vnets"].([]interface{})
-	fmt.Println("vnets:", vnets)
-	var vnet = vnets[0].(map[string]interface{})
-	fmt.Println("vnet:", vnet)
-	resources := transformResource(resourceFile, vnet)
+	resourcesString := ""
 
-	values["resources"] = resources
+	resources := values["resources"].(map[string]interface{})
+	for resourceType := range resources {
+		resourceTypeArr := resources[resourceType].([]interface{})
+		fmt.Println(resourceTypeArr)
+		for id := range resourceTypeArr {
+			var vnet = resourceTypeArr[id].(map[string]interface{})
+			resource2 := transformResource(resourceFile, vnet)
+			resourcesString = resourcesString + resource2
+		}
+	}
+	values["resources"] = resourcesString
 
 	json2 := transformMaster(values)
 	println("----JSON----")
