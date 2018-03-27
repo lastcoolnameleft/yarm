@@ -10,13 +10,13 @@ import (
 type Values map[string]interface{}
 
 func main() {
-	resourceFile := os.Args[1]
-	valuesFile := os.Args[2]
+	valuesFile := os.Args[1]
 
 	values, err := ReadValuesFile(valuesFile)
 	if err != nil {
 		panic(err)
 	}
+	//fmt.Println("values:", values)
 
 	resourcesString := ""
 
@@ -24,9 +24,10 @@ func main() {
 	for resourceType := range resources {
 		resourceTypeArr := resources[resourceType].([]interface{})
 		for id := range resourceTypeArr {
-			var vnet = resourceTypeArr[id].(map[string]interface{})
-			resource2 := transformResource(resourceFile, vnet)
-			resourcesString = resourcesString + resource2
+			resourceFile := "content/resources/" + resourceType + ".yarm"
+			resource := resourceTypeArr[id].(map[string]interface{})
+			resourceString := transformResource(resourceFile, resource)
+			resourcesString = resourcesString + resourceString
 		}
 	}
 	values["resources"] = resourcesString
@@ -62,7 +63,7 @@ func transformMaster(values Values) string {
 		panic(err)
 	}
 
-	print(res.String())
+	//print(res.String())
 	json2, err := ConvertToPrettyJSON(res)
 	if err != nil {
 		panic(err)

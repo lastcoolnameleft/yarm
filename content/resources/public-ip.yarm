@@ -1,0 +1,9 @@
+  -
+    apiVersion: "2015-06-15"
+    type: "Microsoft.Network/publicIPAddresses" 
+    name: {{ .name }}
+    location: {{ .location }}
+    properties:
+      publicIPAllocationMethod: {{ .publicIPAllocationMethod }}
+      dnsSettings:
+        domainNameLabel: {{ .domainNameLabel }}
