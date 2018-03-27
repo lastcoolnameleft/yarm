@@ -43,7 +43,7 @@ resources:
       vmSize: Standard_D2_v2
       computerName: thfalgouvm
       adminUsername: thfalgou
-      adminPassword: 
+      adminPassword: EnterPassw0rdHere
       imagePublisher: Canonical
       imageOffer: UbuntuServer
       imageSku: 16.04-LTS
