@@ -23,7 +23,6 @@ func main() {
 	resources := values["resources"].(map[string]interface{})
 	for resourceType := range resources {
 		resourceTypeArr := resources[resourceType].([]interface{})
-		fmt.Println(resourceTypeArr)
 		for id := range resourceTypeArr {
 			var vnet = resourceTypeArr[id].(map[string]interface{})
 			resource2 := transformResource(resourceFile, vnet)
