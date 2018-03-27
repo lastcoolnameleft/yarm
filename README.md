@@ -6,5 +6,5 @@ This is my first "real" Go program.  I can't stop you from laughing at my code, 
 
 ```shell
 go install github.com/lastcoolnameleft/yarm
-yarm content/test.yarm content/values.yaml
+yarm content/resources/vnet.yarm content/values/vnet.yaml
 ```
