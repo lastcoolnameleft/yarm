@@ -13,21 +13,45 @@ resources:
           addressPrefix: 10.0.0.0/24
         - name: mysubnet2
           addressPrefix: 10.1.0.0/24
-  network-interface:
-    - name: mypip
-      location: southcentralus
-      dependsOn:
-        - Microsoft.Network/publicIPAddresses/mypip
-        - Microsoft.Network/virtualNetworks/myvnet
-      ipConfigurations:
-        - name: ipconfig1
-          privateIPAllocationMethod: Dynamic
-          publicIPAddressId: Microsoft.Network/publicIPAddresses/mypip
-          subnetId: Microsoft.Network/virtualNetworks/myvnet/subnets/mysubnet1
-      publicIPAllocationMethod: Dynamic
-      domainNameLabel: thfalgou-pip
   public-ip:
     - name: mypip
       location: southcentralus
       publicIPAllocationMethod: Dynamic
       domainNameLabel: thfalgou-pip
+  network-interface:
+    - name: mynic
+      location: southcentralus
+      dependsOn:
+        - type: Microsoft.Network/publicIPAddresses
+          name: mypip
+        - type: Microsoft.Network/virtualNetworks
+          name: myvnet
+      ipConfigurations:
+        - name: ipconfig1
+          privateIPAllocationMethod: Dynamic
+          publicIPAddressName: mypip
+          vnetName: myvnet
+          subnetName: mysubnet1
+      publicIPAllocationMethod: Dynamic
+      domainNameLabel: thfalgou-pip
+  vm:
+    - name: myvm
+      location: southcentralus
+      dependsOn:
+        - type: Microsoft.Network/networkInterfaces
+          name: mynic
+      vmSize: Standard_D2_v2
+      computerName: thfalgouvm
+      adminUsername: thfalgou
+      adminPassword: 
+      imagePublisher: Canonical
+      imageOffer: UbuntuServer
+      imageSku: 16.04-LTS
+      imageVersion: latest
+      osDiskName: osdisk
+      osDiskCaching: ReadWrite
+      osDiskCreateOption: FromImage
+      osDiskStorageAccountType: Standard_LRS
+      networkInterfaces:
+        - type: Microsoft.Network/networkInterfaces
+          name: mynic

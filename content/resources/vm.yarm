@@ -1,0 +1,33 @@
+  -
+    apiVersion: 2017-03-30
+    type: Microsoft.Compute/virtualMachines
+    name: {{ .name }}
+    location: {{ .location }}
+    dependsOn:
+          {{- range $dependency := .dependsOn }}
+          - "[resourceId('{{ $dependency.type }}', '{{ $dependency.name }}')]"
+          {{- end }}
+    properties:
+      hardwareProfile:
+        vmSize: {{ .vmSize }}
+      osProfile:
+        computerName: {{ .computerName }}
+        adminUsername: {{ .adminUsername }}
+        adminPassword: {{ .adminPassword }}
+      storageProfile:
+        imageReference: 
+          publisher: {{ .imagePublisher }}
+          offer: {{ .imageOffer }}
+          sku: {{ .imageSku }}
+          version: {{ .imageVersion }}
+        osDisk:
+          name: {{ .osDiskName }}
+          caching: {{ .osDiskCaching }}
+          createOption: {{ .osDiskCreateOption }}
+          managedDisk:
+            storageAccountType: {{ .osDiskStorageAccountType}}
+      networkProfile:
+        networkInterfaces:
+          {{- range $networkInterface := .networkInterfaces }}
+          - id: "[resourceId('{{ $networkInterface.type }}', '{{ $networkInterface.name }}')]"
+          {{- end }}

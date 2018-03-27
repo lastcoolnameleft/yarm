@@ -27,4 +27,4 @@
                 {{- range $key, $val := .dhcpOptions }}
                 - {{ $key }}: {{ $val }}
                 {{- end }}
-{{- end -}}
+{{- end }}

@@ -5,7 +5,7 @@
     location: {{ .location }}
     dependsOn:
           {{- range $dependency := .dependsOn }}
-          - {{ $dependency}}
+          - "[resourceId('{{ $dependency.type }}', '{{ $dependency.name }}')]"
           {{- end }}
     properties:
       ipConfigurations:
@@ -15,7 +15,7 @@
           properties:
             privateIPAllocationMethod: {{ $ipConfig.privateIPAllocationMethod}}
             publicIPAddress:
-              id: {{ $ipConfig.publicIPAddressId }}
+              id: "[resourceId('Microsoft.Network/publicIPAddresses', '{{ $ipConfig.publicIPAddressName }}')]"
             subnet:
-              id: {{ $ipConfig.subnetId }}
+              id: "[concat(resourceId('Microsoft.Network/virtualNetworks', '{{ $ipConfig.vnetName }}'), '/subnets/', '{{ $ipConfig.subnetName }}')]"
         {{- end }}

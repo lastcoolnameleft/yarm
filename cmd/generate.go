@@ -28,6 +28,8 @@ import (
 )
 
 var output string
+var subscriptionID string
+var resourceGroup string
 
 // generateCmd represents the generate command
 var generateCmd = &cobra.Command{
@@ -36,7 +38,7 @@ var generateCmd = &cobra.Command{
 	Long:  `Requires an input of the values.yaml file to generate the ARM template`,
 	Run: func(cmd *cobra.Command, args []string) {
 		valuesFile := os.Args[2]
-		yarm.CreateArm(valuesFile, output)
+		yarm.CreateArm(valuesFile, output, subscriptionID, resourceGroup)
 	},
 }
 
@@ -52,4 +54,6 @@ func init() {
 	// Cobra supports local flags which will only run when this command
 	// is called directly, e.g.:
 	generateCmd.Flags().StringVarP(&output, "output", "o", "json", "Output format <yaml|json>")
+	generateCmd.Flags().StringVarP(&subscriptionID, "subscriptionID", "s", "", "Subscription ID <uuid>")
+	generateCmd.Flags().StringVarP(&resourceGroup, "resourceGroup", "g", "", "Resource Group <yarm>")
 }

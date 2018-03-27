@@ -10,9 +10,10 @@ import (
 type Values map[string]interface{}
 
 // CreateArm will generate the ARM template
-func CreateArm(valuesFile, output string) {
+func CreateArm(valuesFile, output, subscriptionID, resourceGroup string) {
 
 	values, err := ReadValuesFile(valuesFile)
+
 	if err != nil {
 		panic(err)
 	}
@@ -26,6 +27,10 @@ func CreateArm(valuesFile, output string) {
 		for id := range resourceTypeArr {
 			resourceFile := "content/resources/" + resourceType + ".yarm"
 			resource := resourceTypeArr[id].(map[string]interface{})
+			// Hacky, I know.  Just for right now.  ... I promise.  No really.
+			resource["subscriptionID"] = subscriptionID
+			resource["resourceGroup"] = resourceGroup
+			//fmt.Println("resource:", resource)
 			resourceString := transformResource(resourceFile, resource)
 			resourcesString = resourcesString + resourceString
 		}
