@@ -1,0 +1,21 @@
+  -
+    apiVersion: 2015-06-15
+    type: Microsoft.Network/networkInterfaces
+    name: {{ .name }}
+    location: {{ .location }}
+    dependsOn:
+          {{- range $dependency := .dependsOn }}
+          - {{ $dependency}}
+          {{- end }}
+    properties:
+      ipConfigurations:
+        {{- range $ipConfig := .ipConfigurations }}
+        - 
+          name: {{ $ipConfig.name }}
+          properties:
+            privateIPAllocationMethod: {{ $ipConfig.privateIPAllocationMethod}}
+            publicIPAddress:
+              id: {{ $ipConfig.publicIPAddressId }}
+            subnet:
+              id: {{ $ipConfig.subnetId }}
+        {{- end }}

@@ -1,5 +1,5 @@
 resources:
-  vnets:
+  vnet:
     - name: myvnet
       location: southcentralus
       tags:

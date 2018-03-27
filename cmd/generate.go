@@ -18,10 +18,38 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-package main
+package cmd
 
-import "github.com/lastcoolnameleft/yarm/cmd"
+import (
+	"os"
 
-func main() {
-	cmd.Execute()
+	"github.com/lastcoolnameleft/yarm/yarm"
+	"github.com/spf13/cobra"
+)
+
+var output string
+
+// generateCmd represents the generate command
+var generateCmd = &cobra.Command{
+	Use:   "generate",
+	Short: "Generate the ARM template",
+	Long:  `Requires an input of the values.yaml file to generate the ARM template`,
+	Run: func(cmd *cobra.Command, args []string) {
+		valuesFile := os.Args[2]
+		yarm.CreateArm(valuesFile, output)
+	},
+}
+
+func init() {
+	rootCmd.AddCommand(generateCmd)
+
+	// Here you will define your flags and configuration settings.
+
+	// Cobra supports Persistent Flags which will work for this command
+	// and all subcommands, e.g.:
+	// generateCmd.PersistentFlags().String("foo", "", "A help for foo")
+
+	// Cobra supports local flags which will only run when this command
+	// is called directly, e.g.:
+	generateCmd.Flags().StringVarP(&output, "output", "o", "json", "Output format <yaml|json>")
 }

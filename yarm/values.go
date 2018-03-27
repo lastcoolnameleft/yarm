@@ -1,4 +1,4 @@
-package main
+package yarm
 
 import (
 	"io/ioutil"
