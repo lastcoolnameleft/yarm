@@ -9,10 +9,23 @@ resources:
         - 10.0.0.0/16
         - 10.1.0.0/16
       subnets:
-        - name: subnet1
+        - name: mysubnet1
           addressPrefix: 10.0.0.0/24
-        - name: subnet2
+        - name: mysubnet2
           addressPrefix: 10.1.0.0/24
+  network-interface:
+    - name: mypip
+      location: southcentralus
+      dependsOn:
+        - Microsoft.Network/publicIPAddresses/mypip
+        - Microsoft.Network/virtualNetworks/myvnet
+      ipConfigurations:
+        - name: ipconfig1
+          privateIPAllocationMethod: Dynamic
+          publicIPAddressId: Microsoft.Network/publicIPAddresses/mypip
+          subnetId: Microsoft.Network/virtualNetworks/myvnet/subnets/mysubnet1
+      publicIPAllocationMethod: Dynamic
+      domainNameLabel: thfalgou-pip
   public-ip:
     - name: mypip
       location: southcentralus
