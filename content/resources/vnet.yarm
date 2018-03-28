@@ -1,5 +1,4 @@
-  -
-    apiVersion: "2015-06-15"
+  - apiVersion: "2015-06-15"
     type: "Microsoft.Network/virtualNetworks" 
     name: {{ .name }}
     location: {{ .location }}
@@ -11,8 +10,7 @@
           {{- end }}
       subnets:
         {{- range $subnet := .subnets }}
-        - 
-          name: {{ $subnet.name }}
+        - name: {{ $subnet.name }}
           properties: 
             addressPrefix: {{ $subnet.addressPrefix }}
         {{- end }}
@@ -21,10 +19,30 @@
         {{- range $key, $val := .tags }}
         {{ $key }}: {{ $val }}
         {{- end }}
-{{- end }}
+{{- end -}}
 {{ if .dhcpOptions }}
         dhcpOptions:
                 {{- range $key, $val := .dhcpOptions }}
                 - {{ $key }}: {{ $val }}
                 {{- end }}
+{{- end -}}
+{{- if .resources }}
+    resources:
+{{- range $resource := .resources }}
+      - apiVersion: {{ $resource.apiVersion }}
+        type: {{ $resource.type }}
+        name: {{ $resource.name }}
+        comments: {{ $resource.comments }}
+        dependsOn:
+          {{- range $dependency := $resource.dependsOn }}
+          - {{ $dependency }}
+          {{- end }}
+        properties: 
+          allowVirtualNetworkAccess: {{ $resource.properties.allowVirtualNetworkAccess }}
+          allowForwardedTraffic: {{ $resource.properties.allowForwardedTraffic }}
+          allowGatewayTransit: {{ $resource.properties.allowGatewayTransit }}
+          useRemoteGateways: {{ $resource.properties.useRemoteGateways }}
+          remoteVirtualNetwork:
+            id: "[resourceId('{{ $resource.properties.remoteVirtualNetwork.type }}', '{{ $resource.properties.remoteVirtualNetwork.name }}')]"
+{{- end }}
 {{- end }}
