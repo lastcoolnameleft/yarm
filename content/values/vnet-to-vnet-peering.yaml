@@ -1,0 +1,52 @@
+resources:
+  vnet:
+    - name: myvnet1
+      location: southcentralus
+      addressPrefixes: 
+        - 10.0.0.0/16
+      subnets:
+        - name: subnet1
+          addressPrefix: 10.0.0.0/24
+      resources:
+        - apiVersion: 2016-06-01
+          type: virtualNetworkPeerings
+          name: myvnet1-myvnet2
+          location: southcentralus
+          dependsOn:
+            - Microsoft.Network/virtualNetworks/myvnet1
+            - Microsoft.Network/virtualNetworks/myvnet2
+          comments: This is the peering from vNet 1 to vNet 2
+          properties:
+            allowVirtualNetworkAccess: true
+            allowForwardedTraffic: false
+            allowGatewayTransit: false
+            useRemoteGateways: false
+          # This is a problem.  Should be in properties, but properties currently only handles flat values
+            remoteVirtualNetwork: 
+              type: Microsoft.Network/virtualNetworks
+              name: myvnet2
+    - name: myvnet2
+      location: southcentralus
+      addressPrefixes: 
+        - 10.1.0.0/16
+      subnets:
+        - name: subnet2
+          addressPrefix: 10.1.0.0/24
+      resources:
+        - apiVersion: 2016-06-01
+          type: virtualNetworkPeerings
+          name: myvnet2-myvnet1
+          location: southcentralus
+          dependsOn:
+            - Microsoft.Network/virtualNetworks/myvnet1
+            - Microsoft.Network/virtualNetworks/myvnet2
+          comments: This is the peering from vNet 2 to vNet 1
+          properties:
+            allowVirtualNetworkAccess: true
+            allowForwardedTraffic: false
+            allowGatewayTransit: false
+            useRemoteGateways: false
+          # This is a problem.  Should be in properties, but properties currently only handles flat values
+            remoteVirtualNetwork: 
+              type: Microsoft.Network/virtualNetworks
+              name: myvnet1
